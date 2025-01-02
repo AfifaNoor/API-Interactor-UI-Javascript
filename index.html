@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Interactor UI</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #007BFF;
+      color: white;
+      border-radius: 8px 8px 0 0;
+    }
+    header h1 {
+      margin: 0;
+    }
+    h2 {
+      color: #007BFF;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 15px;
+      padding: 12px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .response {
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      font-family: monospace;
+      white-space: pre-wrap;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>API UI</h1>
+  </header>
+
+  <!-- Get Skills -->
+  <div class="container">
+    <h2>Get All Skills</h2>
+    <button onClick="skillsResponse(event)">Fetch Skills</button>
+    <div id="skillsResponse" class="response"></div>
+  </div>
+
+  <!-- Add Skill -->
+  <div class="container">
+    <h2>Add Skill</h2>
+    <form onsubmit="addSkillResponse(event)">
+      <label for="skillName">Skill Name</label>
+      <input type="text" id="skillName" placeholder="Enter skill name" required>
+
+      <label for="skillUrl">Skill URL</label>
+      <input type="text" id="skillUrl" placeholder="Enter skill URL" required>
+
+      <button type="submit">Add Skill</button>
+    </form>
+    <div id="addSkillResponse" class="response"></div>
+  </div>
+
+  <!-- Get Projects -->
+  <div class="container">
+    <h2>Get All Projects</h2>
+    <button onClick="projectsResponse(event)">Fetch Projects</button>
+    <div id="projectsResponse" class="response"></div>
+  </div>
+
+  <!-- Add Project -->
+  <div class="container">
+    <h2>Add Project</h2>
+    <form onsubmit="addProjectResponse(event)">
+      <label for="projectName">Project Name</label>
+      <input type="text" id="projectName" placeholder="Enter project name" required>
+
+      <label for="projectUrl">Project URL</label>
+      <input type="text" id="projectUrl" placeholder="Enter project URL" required>
+
+      <label for="projectDescription">Description</label>
+      <textarea id="projectDescription" placeholder="Enter project description" rows="3" required></textarea>
+
+      <label for="projectStack">Technology Stack (comma-separated)</label>
+      <input type="text" id="projectStack" placeholder="e.g., HTML, CSS, JavaScript" required>
+
+      <button type="submit">Add Project</button>
+    </form>
+    <div id="addProjectResponse" class="response"></div>
+  </div>
+
+  <!-- Post Query -->
+  <div class="container">
+    <h2>Post a Query</h2>
+    <form onsubmit="postQueryResponse(event)">
+      <label for="queryName">Your Name</label>
+      <input type="text" id="queryName" placeholder="Enter your name" required>
+
+      <label for="queryEmail">Email</label>
+      <input type="email" id="queryEmail" placeholder="Enter your email" required>
+
+      <label for="queryPhone">Phone Number</label>
+      <input type="text" id="queryPhone" placeholder="Enter your phone number" required>
+
+      <label for="queryText">Your Query</label>
+      <textarea id="queryText" placeholder="Type your query here" rows="4" required></textarea>
+
+      <button type="submit">Post Query</button>
+    </form>
+    <div id="postQueryResponse" class="response"></div>
+  </div>
+
+  <script>
+    const baseUrl = 'https://test-ejvm.onrender.com';
+
+    async function skillsResponse(event) {
+      try {
+        const response = await fetch(`${baseUrl}/skills`);
+        const data = await response.json();
+        document.getElementById("skillsResponse").innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("skillsResponse").innerText = "Error fetching skills.";
+      }
+    }
+
+    async function addSkillResponse(event) {
+      event.preventDefault();
+      const skillName = document.getElementById("skillName").value;
+      const skillUrl = document.getElementById("skillUrl").value;
+      try {
+        const response = await fetch(`${baseUrl}/skills`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ skillName, skillUrl }),
+        });
+        const data = await response.json();
+        document.getElementById("addSkillResponse").innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("addSkillResponse").innerText = "Error adding skill.";
+      }
+    }
+
+    async function projectsResponse(event) {
+      try {
+        const response = await fetch(`${baseUrl}/projects`);
+        const data = await response.json();
+        document.getElementById("projectsResponse").innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("projectsResponse").innerText = "Error fetching projects.";
+      }
+    }
+
+    async function addProjectResponse(event) {
+      event.preventDefault();
+      const projectName = document.getElementById("projectName").value;
+      const projectUrl = document.getElementById("projectUrl").value;
+      const projectDescription = document.getElementById("projectDescription").value;
+      const projectStack = document.getElementById("projectStack").value;
+      try {
+        const response = await fetch(`${baseUrl}/projects`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: projectName,
+            url: projectUrl,
+            description: projectDescription,
+            stack: projectStack,
+          }),
+        });
+        const data = await response.json();
+        document.getElementById("addProjectResponse").innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("addProjectResponse").innerText = "Error adding project.";
+      }
+    }
+
+    async function postQueryResponse(event) {
+      event.preventDefault();
+      const queryName = document.getElementById("queryName").value;
+      const queryEmail = document.getElementById("queryEmail").value;
+      const queryPhone = document.getElementById("queryPhone").value;
+      const queryText = document.getElementById("queryText").value;
+      try {
+        const response = await fetch(`${baseUrl}/queries`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: queryName,
+            email: queryEmail,
+            phonenumber: queryPhone,
+            query: queryText,
+          }),
+        });
+        const data = await response.json();
+        document.getElementById("postQueryResponse").innerText = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById("postQueryResponse").innerText = "Error posting query.";
+      }
+    }
+  </script>
+</body>
+</html>
