@@ -10,11 +10,6 @@ API Interactor UI is a dynamic and user-friendly web interface designed to inter
 - **Add Project**: Add a new project with details like name, URL, description, and tech stack.
 - **Post a Query**: Submit user queries with name, email, phone, and query text.
 
-## Demo
-
-![API Interactor UI](https://via.placeholder.com/800x400)  
-*(Replace this placeholder with an actual screenshot or GIF of your project)*
-
 ## Tech Stack
 
 - **HTML**: Markup for structuring the UI.
