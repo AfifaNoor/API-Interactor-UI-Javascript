@@ -5,9 +5,13 @@ API Interactor UI is a dynamic and user-friendly web interface designed to inter
 ## Features
 
 - **Fetch Skills**: Retrieve all skills from the API.
+
 - **Add Skill**: Add a new skill with a name and URL.
+
 - **Fetch Projects**: Retrieve all projects from the API.
+
 - **Add Project**: Add a new project with details like name, URL, description, and tech stack.
+
 - **Post a Query**: Submit user queries with name, email, phone, and query text.
 
 ## Tech Stack
